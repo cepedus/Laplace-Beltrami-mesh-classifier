@@ -1,0 +1,6 @@
+# Build & data folders
+build/
+models/
+
+# Other formats
+*.zip
