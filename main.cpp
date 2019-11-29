@@ -138,14 +138,17 @@ int main(int argc, char *argv[])
 	// compute eigen-decomposition of Laplace-Beltrami operator
 	SparseMatrix<double> L, M;
 	cout << "Computing Laplacian" << endl;
-	igl::cotmatrix(V, F, L);
+	igl::cotmatrix(V, F, L); // /!\ MEF cotmatrix seams to be minus what we want
+	L = -L;
 	// Default is voronoi mass matrix, but we want barytcentric to implement the paper
 	igl::massmatrix(V, F, igl::MASSMATRIX_TYPE_BARYCENTRIC, M);
 	cout << "Computing Eigen decomposition" << endl;
 	igl::eigs(L, M, d + 1, igl::EIGS_TYPE_SM, U, S);
 
 	// build GPS matrix and classify points according to regions
+	cout << "Computing GPS embedding" << endl;
 	MatrixXd gps = GPS(U, S);
+	// std::cout << S.rows()/*gps.rowwise().norm()*/ << std::endl;
 	//regs = regions(gps, m);
 
 	writeMatrix("../camel-collapse-reference_15_GPS.txt", gps);
