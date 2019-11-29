@@ -124,14 +124,13 @@ VectorXd regions(MatrixXd& GPS, int m)
 // ------------ main program ----------------
 int main(int argc, char *argv[])
 {
+	int m = 4; // number of regions to make histograms
+	int d = 15; // depth of spectrum (15 in paper)
 	
-	cout << "Executing test program: bunny.off, m = 5, d = 5" << endl;
-	//const char* a = "test.txt";
+	cout << "Executing test program: bunny.off, m = " << m << " , d = " << d << endl;
 
 	igl::readOBJ("../models/camel-collapse/camel-collapse-reference.obj", V, F);
 
-	int m = 4; // number of regions to make histograms
-	int d = 15; // depth of spectrum (15 in paper)
 
 	// read mesh
 	//igl::readOFF("../data/bunny.off", V, F);
