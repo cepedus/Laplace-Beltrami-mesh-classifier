@@ -24,6 +24,8 @@
 //#include "LaplaceBeltrami.cpp"
 
 
+// THIS : https://ensiwiki.ensimag.fr/index.php?title=Descripteur_de_formes_et_mouvements_3D_et_classification_d%27animations
+
 using namespace Eigen; // to use the classes provided by Eigen library
 using namespace std;
 #define MAXBUFSIZE  ((int) 1e5)
@@ -89,7 +91,6 @@ void writeMatrix(string filename, MatrixXd data)
 	}
 	else
 		cerr << "Error opening" << filename << endl;
-
 }
 
 MatrixXd GPS(MatrixXd& U, VectorXd& S)
@@ -115,9 +116,7 @@ VectorXd regions(MatrixXd& GPS, int m)
 	double delta = d_max / m;
 
 	for (int i = 0; i < GPS.rows(); i++)
-	{
 		result(i, 0) = floor(norms(i, 0) / delta) + 1;
-	}
 
 	return result;
 }
@@ -150,7 +149,7 @@ int main(int argc, char *argv[])
 	//regs = regions(gps, m);
 
 	writeMatrix("../camel-collapse-reference_15_GPS.txt", gps);
-	writeMatrix("../camel-collapse-reference_15_shapeDNA.txt", S);
+	writeMatrix("../camel-collapse-reference_15_shapeDNA.txt", shapeDNA(S));
 
 
 }
