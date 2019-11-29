@@ -3,6 +3,7 @@
 #include <ostream>
 #include <fstream>
 #include <string>
+#include <random>
 #include <igl/readOFF.h>
 #include <igl/writeOFF.h>
 #include <igl/doublearea.h>
@@ -23,6 +24,9 @@
 //#include "HalfedgeBuilder.cpp"
 //#include "LaplaceBeltrami.cpp"
 
+// rng from https://stackoverflow.com/questions/5008804/generating-random-integer-from-a-range
+std::random_device rd;     // only used once to initialise (seed) engine
+std::mt19937 rng(rd());    // random-number engine used (Mersenne-Twister in this case)
 
 // THIS : https://ensiwiki.ensimag.fr/index.php?title=Descripteur_de_formes_et_mouvements_3D_et_classification_d%27animations
 
@@ -126,15 +130,13 @@ int main(int argc, char *argv[])
 {
 	int m = 4; // number of regions to make histograms
 	int d = 15; // depth of spectrum (15 in paper)
+	string meshName(argv[1]);
 	
-	cout << "Executing test program: bunny.off, m = " << m << " , d = " << d << endl;
-
-	igl::readOBJ("../models/camel-collapse/camel-collapse-reference.obj", V, F);
-
-
+	cout << "Executing test program: " << meshName << ", m = " << m << " , d = " << d << endl;
+	
 	// read mesh
-	//igl::readOFF("../data/bunny.off", V, F);
 
+	igl::readOBJ("./" + meshName + ".obj", V, F);
 	// compute eigen-decomposition of Laplace-Beltrami operator
 	SparseMatrix<double> L, M;
 	cout << "Computing Laplacian" << endl;
@@ -148,11 +150,16 @@ int main(int argc, char *argv[])
 	// build GPS matrix and classify points according to regions
 	cout << "Computing GPS embedding" << endl;
 	MatrixXd gps = GPS(U, S);
-	// std::cout << S.rows()/*gps.rowwise().norm()*/ << std::endl;
-	//regs = regions(gps, m);
+	std::uniform_int_distribution<int> uni(0, gps.rows() - 1);
+	// while (true) {
+	// 	int i = uni(rng);
+	// 	int j = uni(rng);
+	// 	cout << (gps.row(i) - gps.row(j)).norm() << " / ";
+	// }
+	// regs = regions(gps, m);
 
-	writeMatrix("../camel-collapse-reference_15_GPS.txt", gps);
-	writeMatrix("../camel-collapse-reference_15_shapeDNA.txt", shapeDNA(S));
+	writeMatrix("../results/spectra/" + meshName + "." + to_string(d) + ".GPS.txt", gps);
+	writeMatrix("../results/spectra/" + meshName + "." + to_string(d) + ".shapeDNA.txt", shapeDNA(S));
 
 
 }
