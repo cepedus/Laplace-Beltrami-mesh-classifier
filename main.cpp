@@ -98,10 +98,10 @@ void writeMatrix(string filename, MatrixXd data)
 }
 
 MatrixXd GPS(MatrixXd& U, VectorXd& S)
-// Smallest eigen-value is always 0 (because of mesh)
 {
 	MatrixXd result(U.rows(), U.cols() - 1);
 	int d = S.rows();
+	// ignore smallest eigenvalue (last of S) and reverse column order in result matrix to have v_1, ..., v_d increasing
 	for (int i = 0; i < d - 1; i++)
 		result.col(d - 2 - i) = U.col(i) / sqrt(abs(S(i, 0)));
 
@@ -110,11 +110,13 @@ MatrixXd GPS(MatrixXd& U, VectorXd& S)
 
 VectorXd shapeDNA(VectorXd& S)
 {
+	// get non-zero eigenvalues in increasing order
 	return S.topRows(S.rows() - 1).reverse();
 }
 
 VectorXd regions(MatrixXd& GPS, int m)
 {
+	// get corresponding region vector for each row of GPS matrix
 	VectorXd result = VectorXd::Zero(GPS.rows());
 	VectorXd norms = GPS.rowwise().norm();
 	double d_max = norms.maxCoeff();
@@ -149,9 +151,25 @@ int main(int argc, char *argv[])
 	igl::eigs(L, M, d + 1, igl::EIGS_TYPE_SM, U, S);
 
 	// build GPS matrix and classify points according to regions
-	cout << "Computing GPS embedding" << endl;
+	cout << "Computing embeddings" << endl;
 	MatrixXd gps = GPS(U, S);
 	MatrixXd dna = shapeDNA(S);
+	cout << "Saving embeddings to results/spectra/" << endl;
+	writeMatrix("../results/spectra/" + meshName + "." + to_string(d) + ".GPS.txt", gps);
+	writeMatrix("../results/spectra/" + meshName + "." + to_string(d) + ".shapeDNA.txt", dna);
+
+	/*-----------------------------------------------------------------------------------------
+	// TODO:
+	// - Compute & save embeddings for each shape
+	// 
+	// Rustamov07:
+	//  * for a given m, divide rows of GPS in regions, sample points and compute histograms
+	//  * compare histograms
+	//
+	// Reuter05:
+	//  * Clustering on shapeDNA
+	//-----------------------------------------------------------------------------------------
+	*/
 
 	//std::uniform_int_distribution<int> uni(0, gps.rows() - 1);
 	//// while (true) {
@@ -161,8 +179,7 @@ int main(int argc, char *argv[])
 	//// }
 	//// regs = regions(gps, m);
 
-	//writeMatrix("../results/spectra/" + meshName + "." + to_string(d) + ".GPS.txt", gps);
-	//writeMatrix("../results/spectra/" + meshName + "." + to_string(d) + ".shapeDNA.txt", shapeDNA(S));
+	
 
 
 }
