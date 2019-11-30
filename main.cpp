@@ -128,6 +128,7 @@ VectorXd regions(MatrixXd& GPS, int m)
 	return result;
 }
 
+
 // ------------ main program ----------------
 int main(int argc, char *argv[])
 {
@@ -139,7 +140,7 @@ int main(int argc, char *argv[])
 	
 	// read mesh
 
-	igl::readOBJ("./" + meshName + ".obj", V, F);
+	igl::readOFF("../data/" + meshName + ".off", V, F);
 	// compute eigen-decomposition of Laplace-Beltrami operator
 	SparseMatrix<double> L, M;
 	cout << "Computing Laplacian" << endl;
@@ -148,7 +149,15 @@ int main(int argc, char *argv[])
 	// Default is voronoi mass matrix, but we want barytcentric to implement the paper
 	igl::massmatrix(V, F, igl::MASSMATRIX_TYPE_BARYCENTRIC, M);
 	cout << "Computing Eigen decomposition" << endl;
-	igl::eigs(L, M, d + 1, igl::EIGS_TYPE_SM, U, S);
+	bool eig = igl::eigs(L, M, d + 1, igl::EIGS_TYPE_SM, U, S);
+
+	while (!eig) // "fix" to converge from https://www.mathworks.com/matlabcentral/answers/172633-eig-doesn-t-converge-can-you-explain-why
+	{
+		cout << "Smoothing L " << endl;
+		double n_L = L.norm() / (L.rows() * L.cols());
+		L = (L * L).pruned(n_L, 1e-8);
+		eig = igl::eigs(L, M, d + 1, igl::EIGS_TYPE_SM, U, S);
+	}
 
 	// build GPS matrix and classify points according to regions
 	cout << "Computing embeddings" << endl;
@@ -168,6 +177,8 @@ int main(int argc, char *argv[])
 	//
 	// Reuter05:
 	//  * Clustering on shapeDNA
+	//
+	// maybe we can do in python the distribs/clustering
 	//-----------------------------------------------------------------------------------------
 	*/
 
