@@ -98,18 +98,19 @@ void writeMatrix(string filename, MatrixXd data)
 }
 
 MatrixXd GPS(MatrixXd& U, VectorXd& S)
+// Smallest eigen-value is always 0 (because of mesh)
 {
 	MatrixXd result(U.rows(), U.cols() - 1);
 	int d = S.rows();
-	for (int i = 1; i < d; i++)
-		result.col(i - 1) = U.col(i) / sqrt(abs(S(i, 0)));
+	for (int i = 0; i < d - 1; i++)
+		result.col(d - 2 - i) = U.col(i) / sqrt(abs(S(i, 0)));
 
 	return result;
 }
 
 VectorXd shapeDNA(VectorXd& S)
 {
-	return S.bottomRows(S.rows() - 1);
+	return S.topRows(S.rows() - 1).reverse();
 }
 
 VectorXd regions(MatrixXd& GPS, int m)
@@ -150,16 +151,18 @@ int main(int argc, char *argv[])
 	// build GPS matrix and classify points according to regions
 	cout << "Computing GPS embedding" << endl;
 	MatrixXd gps = GPS(U, S);
-	std::uniform_int_distribution<int> uni(0, gps.rows() - 1);
-	// while (true) {
-	// 	int i = uni(rng);
-	// 	int j = uni(rng);
-	// 	cout << (gps.row(i) - gps.row(j)).norm() << " / ";
-	// }
-	// regs = regions(gps, m);
+	MatrixXd dna = shapeDNA(S);
 
-	writeMatrix("../results/spectra/" + meshName + "." + to_string(d) + ".GPS.txt", gps);
-	writeMatrix("../results/spectra/" + meshName + "." + to_string(d) + ".shapeDNA.txt", shapeDNA(S));
+	//std::uniform_int_distribution<int> uni(0, gps.rows() - 1);
+	//// while (true) {
+	//// 	int i = uni(rng);
+	//// 	int j = uni(rng);
+	//// 	cout << (gps.row(i) - gps.row(j)).norm() << " / ";
+	//// }
+	//// regs = regions(gps, m);
+
+	//writeMatrix("../results/spectra/" + meshName + "." + to_string(d) + ".GPS.txt", gps);
+	//writeMatrix("../results/spectra/" + meshName + "." + to_string(d) + ".shapeDNA.txt", shapeDNA(S));
 
 
 }
