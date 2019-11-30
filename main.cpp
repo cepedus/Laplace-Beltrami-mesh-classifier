@@ -151,12 +151,19 @@ int main(int argc, char *argv[])
 	cout << "Computing Eigen decomposition" << endl;
 	bool eig = igl::eigs(L, M, d + 1, igl::EIGS_TYPE_SM, U, S);
 
-	while (!eig) // "fix" to converge from https://www.mathworks.com/matlabcentral/answers/172633-eig-doesn-t-converge-can-you-explain-why
+	if (!eig) // "fix" to converge from https://www.mathworks.com/matlabcentral/answers/172633-eig-doesn-t-converge-can-you-explain-why
 	{
 		cout << "Smoothing L " << endl;
 		double n_L = L.norm() / (L.rows() * L.cols());
 		L = (L * L).pruned(n_L, 1e-8);
+		cout << "Re-computing Laplacian" << endl;
 		eig = igl::eigs(L, M, d + 1, igl::EIGS_TYPE_SM, U, S);
+	}
+
+	if (!eig)
+	{
+		cerr << "Task successfully failed" << endl;
+		return -1;
 	}
 
 	// build GPS matrix and classify points according to regions
