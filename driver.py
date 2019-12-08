@@ -2,8 +2,9 @@ import sys
 import subprocess
 import os
 
-cmd = "ssh -oStrictHostKeyChecking=no {} \"tmux new-session -s {} -d \\\"../project_bin {} \\\"\""
+# cmd = "ssh -oStrictHostKeyChecking=no {} \"tmux new-session -s {} -d \\\"../project_bin {} \\\"\""
 # cmd = "ls"
+username = "timothee.darcet"
 
 nodes_FN = sys.argv[1]
 models_path = sys.argv[2]
@@ -20,7 +21,7 @@ with open(nodes_FN, 'r') as nodes_F:
                     nodes_F.seek(0)
                     node = nodes_F.readline()
                 print("Doing {} on {}".format(model, node))
-                process = subprocess.Popen(["ssh", "-oStrictHostKeyChecking=no", node, "\"tmux new-session -s", "project_embeddings", "-d \\\"../project_bin", model, "\\\"\""], stdout=subprocess.PIPE)
+                process = subprocess.Popen(["ssh", "-oStrictHostKeyChecking=no", username + "@" + node, "\"tmux new-session -s", "project_embeddings", "-d \\\"../project_bin", model, "\\\"\""], stdout=subprocess.PIPE)
                 output, error = process.communicate()
                 print(output)
                 print(error, file=sys.stderr)
