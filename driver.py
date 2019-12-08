@@ -20,7 +20,7 @@ with open(nodes_FN, 'r') as nodes_F:
                     nodes_F.seek(0)
                     node = nodes_F.readline()
                 print("Doing {} on {}".format(model, node))
-                process = subprocess.Popen([cmd], stdout=subprocess.PIPE)
+                process = subprocess.Popen([cmd.format(node, "project_embeddings", model)], stdout=subprocess.PIPE)
                 output, error = process.communicate()
                 print(output)
                 print(error, file=sys.stderr)
