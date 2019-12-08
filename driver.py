@@ -29,6 +29,6 @@ with open(nodes_FN, 'r') as nodes_F:
                 print("cmd =", cmd)
                 process = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
                 # output, error = process.communicate()
-                print(process.stdout)
-                print(process.stderr, file=sys.stderr)
+                print(process)
+                # print(process.stderr, file=sys.stderr)
 
