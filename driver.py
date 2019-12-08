@@ -27,8 +27,8 @@ with open(nodes_FN, 'r') as nodes_F:
                 print("Doing {} on {}".format(model, node))
                 cmd = " ".join(["ssh", "-oStrictHostKeyChecking=no", username + "@" + node, "\"tmux", "new-session", "-s", "project_embeddings", "-d", "\\\"../project_bin", model, "\\\"\""])
                 print("cmd =", cmd)
-                process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
+                process = subprocess.run(cmd, stdout=subprocess.PIPE, shell=True, capture_output=True)
                 output, error = process.communicate()
-                print(output)
-                print(error, file=sys.stderr)
+                # print(output)
+                # print(error, file=sys.stderr)
 
