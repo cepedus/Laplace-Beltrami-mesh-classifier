@@ -171,7 +171,7 @@ int main(int argc, char *argv[])
 	cout << "Computing embeddings" << endl;
 	MatrixXd gps = GPS(U, S);
 	MatrixXd dna = shapeDNA(S);
-	string name = meshName.substr(meshName.find_last_of("/"));
+	string name = meshName.substr(meshName.find_last_of("/") + 1);
 	cout << "Saving embeddings to results/" << name << "." << d << ".*.txt" << endl;
 	writeMatrix("../results/" + name + "." + to_string(d) + ".GPS.txt", gps);
 	writeMatrix("../results/" + name + "." + to_string(d) + ".shapeDNA.txt", dna);
