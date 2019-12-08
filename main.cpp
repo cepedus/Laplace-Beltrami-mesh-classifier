@@ -140,7 +140,8 @@ int main(int argc, char *argv[])
 	
 	// read mesh
 
-	igl::readOFF("../data/" + meshName + ".off", V, F);
+	// igl::readOFF("../data/" + meshName + ".off", V, F);
+	igl::readOBJ("./" + meshName, V, F);
 	// compute eigen-decomposition of Laplace-Beltrami operator
 	SparseMatrix<double> L, M;
 	cout << "Computing Laplacian" << endl;
@@ -170,9 +171,10 @@ int main(int argc, char *argv[])
 	cout << "Computing embeddings" << endl;
 	MatrixXd gps = GPS(U, S);
 	MatrixXd dna = shapeDNA(S);
-	cout << "Saving embeddings to results/spectra/" << endl;
-	writeMatrix("../results/spectra/" + meshName + "." + to_string(d) + ".GPS.txt", gps);
-	writeMatrix("../results/spectra/" + meshName + "." + to_string(d) + ".shapeDNA.txt", dna);
+	string name = meshName.substr(meshName.find_last_of("/"));
+	cout << "Saving embeddings to results/" << name << "." << d << ".*.txt" << endl;
+	writeMatrix("../results/" + name + "." + to_string(d) + ".GPS.txt", gps);
+	writeMatrix("../results/" + name + "." + to_string(d) + ".shapeDNA.txt", dna);
 
 	/*-----------------------------------------------------------------------------------------
 	// TODO:
