@@ -1,3 +1,11 @@
 {
-    "python.pythonPath": "/home/timothee/Documents/Docs_X/INF/INF574/Projet_ShapeRetrieval/.venv/bin/python2.7"
+    "python.pythonPath": ".venv/bin/python",
+    "files.watcherExclude": {
+        "**/results/**": true,
+        "**/build/**": true,
+        "**/.venv/**": true,
+        "**/cmake/**": true,
+      }
+    
+    
 }
