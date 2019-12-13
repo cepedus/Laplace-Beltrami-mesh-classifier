@@ -10,5 +10,7 @@ results/
 *.rar
 *.7z
 *.pdf
+
 .vscode/c_cpp_properties.json
 .vscode/*
+pickles/

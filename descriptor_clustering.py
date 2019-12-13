@@ -257,7 +257,7 @@ for shape in base_names:
     # plt.title('G2 distributions for ' + shape +' shapes')
     # plt.show()
 
-with open("./pickles/distribs.pickle", 'w') as pklF:
+with open("./pickles/distribs.pickle", 'wb') as pklF:
     pickle.dump(distribs, pklF)
 
 # compute distance matrix
