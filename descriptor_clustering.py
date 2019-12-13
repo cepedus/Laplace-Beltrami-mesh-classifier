@@ -244,7 +244,7 @@ base_names = list(set([meshname.split('-')[0] for meshname in embeds_gps]))
 distribs = [[[None for _ in range(m)] for _ in range(m)] for _ in range(len(embeds_gps))]
 
 for shape in base_names:
-    plt.figure(figsize=(15, 10))
+    # plt.figure(figsize=(15, 10))
     for shape_idx, f in enumerate(embeds_gps):
         if shape not in f:
             continue
