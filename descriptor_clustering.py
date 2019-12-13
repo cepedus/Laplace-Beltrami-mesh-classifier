@@ -179,7 +179,7 @@ def G2_dist(embed1, embed2):
     d = 0
     for i in range(m):
         for j in range(i + 1):
-            d += ks_2samp(list(embed1[i][j]), list(embed2[i][j]))[0]
+            d += ks_2samp(embed1[i][j], embed2[i][j])[0]
     return d
 
 assert(prop <= 1.0 and prop > 0.0), 'Proportion is not valid'
@@ -260,16 +260,3 @@ for shape in base_names:
 with open("./pickles/distribs.pickle", 'wb') as pklF:
     pickle.dump(distribs, pklF)
 
-# compute distance matrix
-# dists = [[None] * len(embeds_gps) for _ in range(len(embeds_gps))]
-# for i in range(len(embeds_gps)):
-#     print("{}/{}".format(i, len(embeds_gps)))
-#     for j in range(i + 1):
-#         dists[i][j] = G2_dist(distribs[i], distribs[j])
-#         dists[j][i] = dists[i][j]
-
-# with open("./dists_matrix.pickle", 'w') as distF:
-#     pickle.dump(dists, distF)
-
-# embedder = MDS(dissimilarity='precomputed')
-# embedding = embedder.fit_transform(dists)
