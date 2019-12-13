@@ -18,7 +18,7 @@ import pickle
 seed_ = 42
 
 # Paths for embedding files and mesh files
-embeds_path = './results'
+embeds_path = './results_princeton/results'
 shapes_path = './models'
 
 # Number of histograms and sample proportion for each region (Rustamov)
@@ -39,7 +39,6 @@ def name(filename, eigs=False):
 
 def missing(embeds, shapes):
     """
-    Given a list of embedding filenames and a list of shapes filenames, returns a list of missing elements between those two (symmetric difference)
     """
     shapes_names = [name(i, eigs=False) for i in shapes]
     embeds_names = [name(i, eigs=True) for i in embeds]
@@ -258,16 +257,19 @@ for shape in base_names:
     # plt.title('G2 distributions for ' + shape +' shapes')
     # plt.show()
 
+with open("./pickles/distribs.pickle", 'w') as pklF:
+    pickle.dump(distribs, pklF)
+
 # compute distance matrix
-dists = [[None] * len(embeds_gps) for _ in range(len(embeds_gps))]
-for i in range(len(embeds_gps)):
-    print("{}/{}".format(i, len(embeds_gps)))
-    for j in range(i + 1):
-        dists[i][j] = G2_dist(distribs[i], distribs[j])
-        dists[j][i] = dists[i][j]
+# dists = [[None] * len(embeds_gps) for _ in range(len(embeds_gps))]
+# for i in range(len(embeds_gps)):
+#     print("{}/{}".format(i, len(embeds_gps)))
+#     for j in range(i + 1):
+#         dists[i][j] = G2_dist(distribs[i], distribs[j])
+#         dists[j][i] = dists[i][j]
 
-with open("./dists_matrix.pickle", 'w') as distF:
-    pickle.dump(dists, distF)
+# with open("./dists_matrix.pickle", 'w') as distF:
+#     pickle.dump(dists, distF)
 
-embedder = MDS(dissimilarity='precomputed')
-embedding = embedder.fit_transform(dists)
+# embedder = MDS(dissimilarity='precomputed')
+# embedding = embedder.fit_transform(dists)
