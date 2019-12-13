@@ -7,7 +7,7 @@ import pickle
 # cmd = "ls"
 username = "timothee.darcet"
 
-nodes_FN = int(sys.argv[1])
+nodes_FN = sys.argv[1]
 n = int(sys.argv[2])
 m = int(sys.argv[3])
 
