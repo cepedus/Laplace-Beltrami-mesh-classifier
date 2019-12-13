@@ -140,8 +140,8 @@ int main(int argc, char *argv[])
 	
 	// read mesh
 
-	// igl::readOFF("../data/" + meshName + ".off", V, F);
-	igl::readOBJ("./" + meshName, V, F);
+	igl::readOFF("./" + meshName, V, F);
+	// igl::readOBJ("./" + meshName, V, F);
 	// compute eigen-decomposition of Laplace-Beltrami operator
 	SparseMatrix<double> L, M;
 	cout << "Computing Laplacian" << endl;
