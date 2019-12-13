@@ -13,7 +13,7 @@ with open(nodes_FN, 'r') as nodes_F:
     for root, dirs, files in os.walk(models_path):
         for f in files:
             model = os.path.join(root, f)
-            if model.split('.')[-1] == "obj":
+            if model.split('.')[-1] == "off":
                 # print(model)
                 # for node in nodes_F.readlines():
                 node = ""
