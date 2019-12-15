@@ -18,7 +18,7 @@ import pickle
 seed_ = 42
 
 # Paths for embedding files and mesh files
-embeds_path = './results_princeton/results'
+embeds_path = './results'
 shapes_path = './models'
 
 # Number of histograms and sample proportion for each region (Rustamov)
@@ -162,7 +162,7 @@ def dim_reduction(X, method='tsne'):
         return coords_2d[:, 0], coords_2d[:, 1]
     else:
         raise Exception('Method is not valid')
-        
+
 def scatter_annotated(x, y, labels):
     """
     Plots a labeled scatter plot in matplotlib
@@ -181,6 +181,16 @@ def G2_dist(embed1, embed2):
         for j in range(i + 1):
             d += ks_2samp(embed1[i][j], embed2[i][j])[0]
     return d
+
+def scatter(x, y):
+    """
+    Plots a labeled scatter plot in matplotlib
+    """
+    _, ax = plt.subplots(figsize=(1,1))
+    ax.scatter(x, y)
+    ax.legend()
+    plt.show()
+
 
 assert(prop <= 1.0 and prop > 0.0), 'Proportion is not valid'
 embeds = glob.glob(embeds_path + '/*.txt')
@@ -259,4 +269,20 @@ for shape in base_names:
 
 with open("./pickles/distribs.pickle", 'wb') as pklF:
     pickle.dump(distribs, pklF)
+
+n = len(embeds_gps)
+dists = [[None] * n for _ in range(n)]
+for i in range(n):
+    print("{}/{}".format(i, n - 1))
+    for j in range(i + 1):
+        dists[i][j] = G2_dist(distribs[i], distribs[j])
+        dists[j][i] = dists[i][j]
+
+embedder = MDS(dissimilarity='precomputed')
+embedding = embedder.fit_transform(dists)
+scatter_annotated(embedding[:, 0], embedding[:, 1], y_simple)
+scatter_annotated(embedding[:, 0], embedding[:, 1], y_mid)
+
+with open("./pickles/dists.pickle", 'wb') as pklF:
+    pickle.dump(dists, pklF)
 
