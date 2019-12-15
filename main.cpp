@@ -133,7 +133,7 @@ VectorXd regions(MatrixXd& GPS, int m)
 int main(int argc, char *argv[])
 {
 	int m = 4; // number of regions to make histograms
-	int d = 20; // depth of spectrum (15 in paper)
+	int d = 12; // depth of spectrum (15 in paper)
 	string meshName(argv[1]);
 	
 	cout << "Executing test program: " << meshName << ", m = " << m << " , d = " << d << endl;
