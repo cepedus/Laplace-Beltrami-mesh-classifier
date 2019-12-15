@@ -132,11 +132,11 @@ VectorXd regions(MatrixXd& GPS, int m)
 // ------------ main program ----------------
 int main(int argc, char *argv[])
 {
-	int m = 4; // number of regions to make histograms
-	int d = 12; // depth of spectrum (15 in paper)
+	// int m = 4; // number of regions to make histograms
 	string meshName(argv[1]);
+	int d = stoi(argv[2]); // depth of spectrum (15 in paper)
 	
-	cout << "Executing test program: " << meshName << ", m = " << m << " , d = " << d << endl;
+	cout << "Executing test program: " << meshName << " , d = " << d << endl;
 	
 	// read mesh
 	if (meshName.substr(meshName.length() - 4) == ".off")
