@@ -139,9 +139,10 @@ int main(int argc, char *argv[])
 	cout << "Executing test program: " << meshName << ", m = " << m << " , d = " << d << endl;
 	
 	// read mesh
-
-	igl::readOFF("./" + meshName, V, F);
-	// igl::readOBJ("./" + meshName, V, F);
+	if (meshName.substr(meshName.length() - 4) == ".off")
+		igl::readOFF("./" + meshName, V, F);
+	else if (meshName.substr(meshName.length() - 4) == ".obj")
+		igl::readOBJ("./" + meshName, V, F);
 	// compute eigen-decomposition of Laplace-Beltrami operator
 	SparseMatrix<double> L, M;
 	cout << "Computing Laplacian" << endl;
