@@ -4,7 +4,7 @@ import os
 
 # cmd = "ssh -oStrictHostKeyChecking=no {} \"tmux new-session -s {} -d \\\"../project_bin {} \\\"\""
 # cmd = "ls"
-username = "timothee.darcet"
+username = "jtx"
 
 nodes_FN = sys.argv[1]
 models_path = sys.argv[2]
@@ -13,7 +13,7 @@ with open(nodes_FN, 'r') as nodes_F:
     for root, dirs, files in os.walk(models_path):
         for f in files:
             model = os.path.join(root, f)
-            if model.split('.')[-1] == "off":
+            if model.split('.')[-1] in ["off", "obj"]:
                 # print(model)
                 # for node in nodes_F.readlines():
                 node = ""
