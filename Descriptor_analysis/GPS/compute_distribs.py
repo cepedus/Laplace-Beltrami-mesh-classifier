@@ -88,6 +88,7 @@ m = 1
 base_names = list(set([meshname.split('-')[0] for meshname in embeds_gps]))
 
 distribs = [[[None for _ in range(m)] for _ in range(m)] for _ in range(len(embeds_gps))]
+names = [None] * len(embeds_gps)
 
 for shape in base_names:
     for shape_idx, f in enumerate(embeds_gps):
@@ -98,7 +99,10 @@ for shape in base_names:
         for i in range(m):
             for j in range(i + 1):
                 distribs[shape_idx][i][j] = distances(gps_i, regs_i, i, j)
+                names[shape_idx] = f
 
+with open("./pickles/names.pickle", 'wb') as pklF:
+    pickle.dump(names, pklF)
 
 with open("./pickles/distribs.pickle", 'wb') as pklF:
     pickle.dump(distribs, pklF)
