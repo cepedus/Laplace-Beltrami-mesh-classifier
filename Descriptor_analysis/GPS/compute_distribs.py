@@ -100,5 +100,5 @@ for shape in base_names:
                 distribs[shape_idx][i][j] = distances(gps_i, regs_i, i, j)
 
 
-with open("./pickles/distribs.pickle", 'wb') as pklF:
+with open("../../pickles/distribs.pickle", 'wb') as pklF:
     pickle.dump(distribs, pklF)
