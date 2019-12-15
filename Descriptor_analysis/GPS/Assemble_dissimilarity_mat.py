@@ -39,4 +39,3 @@ for i in range(n):
 embedder = MDS(dissimilarity='precomputed')
 embedding = embedder.fit_transform(dists)
 scatter(embedding[:, 0], embedding[:, 1])
-print(embedding)

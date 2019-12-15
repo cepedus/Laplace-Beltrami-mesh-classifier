@@ -77,7 +77,7 @@ def shapeDNA(filename):
             dna.append(float(l.strip()))
     assert(len(dna) == dim(filename)), 'Wrong dimension in' + filename
     return np.array(dna)
-    
+
 def regions(GPS):
     """
     Returns region indexes (0 to m - 1) for each vertex in GPS
