@@ -5,6 +5,9 @@
         "**/build/**": true,
         "**/.venv/**": true,
         "**/cmake/**": true,
+      },
+      "files.associations": {
+        "iostream": "cpp"
       }
     
     

@@ -157,7 +157,7 @@ int main(int argc, char *argv[])
 	{
 		cout << "Smoothing L " << endl;
 		double n_L = L.norm() / (L.rows() * L.cols());
-		L = (L * L).pruned(n_L, 1e-8);
+		L.prune(n_L, 1e-8);
 		cout << "Re-computing Laplacian" << endl;
 		eig = igl::eigs(L, M, d + 1, igl::EIGS_TYPE_SM, U, S);
 	}
