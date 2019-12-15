@@ -8,6 +8,7 @@ username = "jtx"
 
 nodes_FN = sys.argv[1]
 models_path = sys.argv[2]
+d = sys.argv[3]
 
 with open(nodes_FN, 'r') as nodes_F:
     for root, dirs, files in os.walk(models_path):
@@ -25,7 +26,7 @@ with open(nodes_FN, 'r') as nodes_F:
                         nodes_F.seek(0)
                 node = node.strip()
                 print("Doing {} on {}".format(model, node))
-                cmd = " ".join(["ssh", "-oStrictHostKeyChecking=no", username + "@" + node, "\"tmux", "new-session", "-s", "project_embeddings", "-d", "\\\"cd ~/timothee/INF574/Projet_ShapeRetrieval/build/ && ./project_bin", model, "\\\"\""])
+                cmd = " ".join(["ssh", "-oStrictHostKeyChecking=no", username + "@" + node, "\"tmux", "new-session", "-s", "project_embeddings", "-d", "\\\"cd ~/timothee/INF574/Projet_ShapeRetrieval/build/ && ./project_bin", model, d, "\\\"\""])
                 print("cmd =", cmd)
                 process = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
                 # output, error = process.communicate()
