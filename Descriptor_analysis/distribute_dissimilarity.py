@@ -5,7 +5,7 @@ import pickle
 
 # cmd = "ssh -oStrictHostKeyChecking=no {} \"tmux new-session -s {} -d \\\"../project_bin {} \\\"\""
 # cmd = "ls"
-username = "timothee.darcet"
+username = "jtx"
 
 nodes_FN = sys.argv[1]
 n = int(sys.argv[2])

@@ -25,7 +25,7 @@ with open(nodes_FN, 'r') as nodes_F:
                         nodes_F.seek(0)
                 node = node.strip()
                 print("Doing {} on {}".format(model, node))
-                cmd = " ".join(["ssh", "-oStrictHostKeyChecking=no", username + "@" + node, "\"tmux", "new-session", "-s", "project_embeddings", "-d", "\\\"cd ~/INF574/Projet_ShapeRetrieval/build/ && ../project_bin", model, "\\\"\""])
+                cmd = " ".join(["ssh", "-oStrictHostKeyChecking=no", username + "@" + node, "\"tmux", "new-session", "-s", "project_embeddings", "-d", "\\\"cd ~/timothee/INF574/Projet_ShapeRetrieval/build/ && ../project_bin", model, "\\\"\""])
                 print("cmd =", cmd)
                 process = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
                 # output, error = process.communicate()
