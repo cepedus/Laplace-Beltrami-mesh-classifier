@@ -1,9 +1,9 @@
 # Build & data folders
-build/
-models/
-data/
-results/
-.venv
+build/**
+models/**
+data/**
+results/**
+.venv/**
 
 # Other formats
 *.zip
